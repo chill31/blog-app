@@ -15,7 +15,16 @@ model Blog {
   shortContent String
   content      String
   date         DateTime @default(now())
-  author       String
   isPublic     Boolean
   id           Int      @id @default(sequence())
+  blogAuthor   Author   @relation(fields: [authorId], references: [id])
+  authorId     String
+}
+
+model Author {
+  id       String    @id @default(sequence())
+  name     String
+  email    String
+  username String
+  Blog     Blog[]
 }

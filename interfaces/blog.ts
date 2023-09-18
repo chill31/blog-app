@@ -1,4 +1,4 @@
-interface Blog {
+interface IBlog {
   title: string;
   shortContent: string;
   content: string;
@@ -7,4 +7,4 @@ interface Blog {
   isPublic: boolean;
 }
 
-export type {Blog};
+export type {IBlog};
