@@ -1,6 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
+type End = 'frontend' | 'backend'
+
 /**
  * # Get Blogs
  *
@@ -13,13 +15,13 @@ const prisma = new PrismaClient();
  * const blogs = await getBlogs();
  * ```
  */
-async function getTotalBlogs({ end }: { end: "FrontEnd" | "BackEnd" }) {
-  if (end === "FrontEnd") {
+async function getTotalBlogs({ end }: { end: End }) {
+  if (end === "frontend") {
     const blogs = await fetch(process.env.URL + "/api/blogs/total");
 
     return JSON.stringify({ totalBlogs: await blogs.json() });
   }
-  if (end === "BackEnd") {
+  if (end === "backend") {
     const blogs = await prisma.blog.count({});
     return JSON.stringify({ totalBlogs: blogs });
   }
@@ -40,10 +42,10 @@ async function getBlogsForEmail({
   end,
 }: {
   email: string;
-  end: "FrontEnd" | "BackEnd";
+  end: End;
 }) {
   // TODO: Logging
-  if (end === "FrontEnd") {
+  if (end === "frontend") {
     try {
       const blogs = await fetch(process.env.URL + "/api/blogs/totalEmail", {
         method: "POST",
@@ -55,13 +57,11 @@ async function getBlogsForEmail({
       return JSON.stringify({ err: { err } });
     }
   }
-  if (end === "BackEnd") {
+  if (end === "backend") {
     try {
       const authorBlogs = await prisma.blog.findMany({
         where: {
-          blogAuthor: {
-            email: email,
-          },
+          email: email,
         },
       });
 
@@ -74,4 +74,14 @@ async function getBlogsForEmail({
   }
 }
 
-export { getTotalBlogs, getBlogsForEmail };
+async function checkForBlog({blogName, end}: {blogName: string, end: End}) {
+  const findBlog = await prisma.blog.findUnique({
+    where: {
+      title: blogName,
+    },
+  });
+  if (!findBlog) return false;
+  return true;
+}
+
+export { getTotalBlogs, getBlogsForEmail, checkForBlog };

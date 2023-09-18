@@ -11,20 +11,11 @@ datasource db {
 }
 
 model Blog {
-  title        String
+  title        String   @unique
   shortContent String
   content      String
   date         DateTime @default(now())
   isPublic     Boolean
-  id           Int      @id @default(sequence())
-  blogAuthor   Author   @relation(fields: [authorId], references: [id])
-  authorId     String
-}
-
-model Author {
-  id       String    @id @default(sequence())
-  name     String
-  email    String
-  username String
-  Blog     Blog[]
+  id          Int      @id @default(sequence())
+  email        String
 }

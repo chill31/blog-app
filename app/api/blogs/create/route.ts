@@ -31,30 +31,16 @@ export async function POST(req: Request) {
     });
     // TODO Add logging
   }
-  const userID = user.id;
 
   try {
 
       const blog = await prisma.blog.create({
         data: {
-          blogAuthor: {
-            connectOrCreate: {
-              create: {
-                email: authorEmail,
-                name: user.firstName ?? "" + user.lastName ?? "",
-                username: user.username ?? "",
-                id: userID,
-              },
-              where: {
-                email: authorEmail,
-                id: userID,
-              },
-            },
-          },
           content,
           title,
           shortContent,
           isPublic,
+          email: authorEmail
         },
       });
   }
