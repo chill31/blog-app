@@ -2,7 +2,7 @@ import { getTotalBlogs } from "@/helpers/getBlogs";
 
 export async function GET() {
     try {
-        const blogs = await getTotalBlogs({ end: "BackEnd" });
+        const blogs = await getTotalBlogs({ end: "backend" });
         return new Response(JSON.stringify({ blogs }));
     }
     catch(err: any) {
