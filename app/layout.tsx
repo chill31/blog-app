@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 import {Providers} from "./providers";
 import { ClerkProvider } from '@clerk/nextjs'
 
-import AuthButtons from "@/components/body/authButtons";
+import { Toaster } from 'react-hot-toast';
 
 export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
@@ -21,6 +21,7 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
       <body className={inter.className}>
         <Providers>
           {children}
+          <Toaster />
         </Providers>
       </body>
     </html>
