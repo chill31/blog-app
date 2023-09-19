@@ -16,6 +16,6 @@ model Blog {
   content      String
   date         DateTime @default(now())
   isPublic     Boolean
-  id          Int      @id @default(sequence())
+  id           Int      @id @default(sequence())
   email        String
 }
