@@ -1,7 +1,9 @@
+import { log } from "@logtail/next";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import crypto from "crypto";
 
-type End = 'frontend' | 'backend'
+type End = "frontend" | "backend";
 
 /**
  * # Get Blogs
@@ -16,6 +18,7 @@ type End = 'frontend' | 'backend'
  * ```
  */
 async function getTotalBlogs({ end }: { end: End }) {
+  log.info("Getting total blogs", { end });
   if (end === "frontend") {
     const blogs = await fetch(process.env.URL + "/api/blogs/total");
 
@@ -37,13 +40,7 @@ async function getTotalBlogs({ end }: { end: End }) {
  * const blogs = await getBlogsForEmail({ email: "jhondoe@gmail.com" });
  * ```
  */
-async function getBlogsForEmail({
-  email,
-  end,
-}: {
-  email: string;
-  end: End;
-}) {
+async function getBlogsForEmail({ email, end }: { email: string; end: End }) {
   // TODO: Logging
   if (end === "frontend") {
     try {
@@ -54,7 +51,12 @@ async function getBlogsForEmail({
 
       return JSON.stringify({ blogs: await blogs.json() });
     } catch (err: any) {
-      return JSON.stringify({ err: { err } });
+      const randomCode = crypto.randomBytes(4).toString("hex");
+      log.error("Error getting blogs for email", { err, erroCode: randomCode });
+      return JSON.stringify({ err: { err }, randomCode });
+    }
+    finally {
+      log.flush()
     }
   }
   if (end === "backend") {
@@ -67,21 +69,33 @@ async function getBlogsForEmail({
 
       return authorBlogs;
     } catch (err: any) {
-      return JSON.stringify({ err: { err } });
+      const randomCode = crypto.randomBytes(4).toString("hex");
+      return JSON.stringify({ err: { err }, randomCode });
     } finally {
+      log.flush()
       await prisma.$disconnect();
     }
   }
 }
 
-async function checkForBlog({blogName, end}: {blogName: string, end: End}) {
-  const findBlog = await prisma.blog.findUnique({
-    where: {
-      title: blogName,
-    },
-  });
-  if (!findBlog) return false;
-  return true;
+async function checkForBlog({ blogName, end }: { blogName: string; end: End }) {
+  try {
+    const findBlog = await prisma.blog.findUnique({
+      where: {
+        title: blogName,
+      },
+    });
+    if (!findBlog) return false;
+    return true;
+  }
+  catch(err: any) {
+    const randomCode = crypto.randomBytes(4).toString("hex");
+    log.error("Error checking for blog", { err, erroCode: randomCode });
+    return JSON.stringify({ err: { err }, randomCode });
+  }
+  finally {
+    log.flush()
+  }
 }
 
 export { getTotalBlogs, getBlogsForEmail, checkForBlog };

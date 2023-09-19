@@ -2,6 +2,7 @@ import Container from "@/components/body/Container";
 import Button from "@/components/elements/Button";
 import Title from "@/components/elements/Title";
 import { SignInButton, currentUser } from "@clerk/nextjs";
+import Link from "next/link";
 
 export default async function Dashboard() {
   const user = await currentUser();
@@ -55,7 +56,7 @@ export default async function Dashboard() {
     <Container>
       <Title>Admin Login</Title>
       <Button>Log out as admin</Button>
-      <Button>Create Blog</Button>
+      <Link href="/dashboard/new-article"><Button>Create Blog</Button></Link>
     </Container>
   );
 }
