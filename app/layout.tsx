@@ -20,7 +20,6 @@ export default function RootLayout({children}: { children: React.ReactNode }) {
     <html lang="en" className='light'>
       <body className={inter.className}>
         <Providers>
-          <AuthButtons />
           {children}
         </Providers>
       </body>

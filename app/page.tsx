@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <Container>
       <Title>Blog</Title>
-      <AuthButtons />
 
       <BlogContainer>
         

@@ -1,7 +1,28 @@
-export default function Title({ children, className }: { children: React.ReactNode, className?: string }) {
+import AuthButtons from "../body/authButtons";
+
+export default function Title({
+  children,
+  className,
+  mainTitle = true,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  mainTitle?: boolean;
+}) {
   return (
-    <h1 className={`text-h1 font-bold ${className ? className : ''}`}>
-      {children}
-    </h1>
+    <>
+      <h1
+        className={`text-h1 font-bold max-sm:text-[3rem] ${
+          className ? className : ""
+        }`}
+      >
+        {children}
+      </h1>
+      {mainTitle ? (
+        <AuthButtons />
+      ) : (
+        ''
+      )}
+    </>
   );
 }

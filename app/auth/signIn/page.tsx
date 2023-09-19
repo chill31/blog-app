@@ -8,7 +8,6 @@ export default async function SignInPage() {
   const user = await currentUser();
 
   redirectToSignIn({ returnBackUrl: "/" });
-
   if (user)
     return (
       <Container>
