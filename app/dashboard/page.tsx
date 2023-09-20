@@ -44,7 +44,7 @@ export default async function Dashboard() {
     return (
       <Container>
         <Title>Dashboard</Title>
-        <ClientSide />
+        <ClientSide URL={process.env.URL ?? ''} />
         <p>
           This page is only for administrators. If you have a admin pass, then
           click on the <b>Log in as admin</b> button

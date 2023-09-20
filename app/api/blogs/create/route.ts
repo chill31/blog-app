@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
   console.log("ran")
 
-  if (!content || !title || !authorEmail || !shortContent || !isPublic) {
+  if (!content || !title || !authorEmail || !shortContent) {
     log.info("Missing fields", {errorCode: randomCode});
     return new Response(JSON.stringify({message: "missing required fields", errorCode: randomCode}), {
       status: 400,

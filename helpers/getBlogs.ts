@@ -21,8 +21,9 @@ async function getTotalBlogs({ end }: { end: End }) {
   log.info("Getting total blogs", { end });
   if (end === "frontend") {
     const blogs = await fetch(process.env.URL + "/api/blogs/total");
+    const blogsArr = await prisma.blog.findMany();
 
-    return JSON.stringify({ totalBlogs: await blogs.json() });
+    return JSON.stringify({ totalBlogs: await blogs.json(), blogs: blogsArr });
   }
   if (end === "backend") {
     const blogs = await prisma.blog.count({});

@@ -23,8 +23,20 @@ export default function BlogCard({
   isPublic: boolean;
   id: number;
 }) {
+
+  function formatDate(date: Date) {
+    const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = months[date.getMonth()];
+    const year = date.getFullYear();
+    const dateFormat = date.getDate();
+    const day = date.getDay();
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    return `${hour}:${minute}, ${month} ${day}, ${year}`;
+  }
+
   return (
-    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black">
+    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black h-[30rem]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4">
@@ -48,7 +60,7 @@ export default function BlogCard({
         <p>{shortContent}</p>
       </CardBody>
       <Divider className="!h-[1.5px] bg-slate-300" />
-      <CardFooter>{date}</CardFooter>
+      <CardFooter>{formatDate(new Date(date))}</CardFooter>
     </Card>
   );
 }

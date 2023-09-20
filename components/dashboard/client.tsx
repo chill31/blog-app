@@ -19,7 +19,7 @@ import {useRouter} from 'next/navigation'
 
 import toast from 'react-hot-toast';
 
-export default function ClientSide() {
+export default function ClientSide({ URL }: { URL: string }) {
 
   const {user} = useUser();
   const router = useRouter();
@@ -28,12 +28,12 @@ export default function ClientSide() {
   const [enteredPassword, setEnteredPassword] = useState("");
 
   function onSubmit() {
-    fetch('/api/env', {
+    fetch(URL + '/api/env', {
       method: 'POST',
       body: JSON.stringify({ givenPass: enteredPassword })
     }).then(res => res.json()).then(data => {
+      console.log(data);
       if(data.success) {
-
         toast.success('Successfully logged in as admin');
         fetch('/api/metadata', {
           method: 'POST',
