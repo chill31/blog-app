@@ -19,7 +19,7 @@ export default async function Blog({ params }: { params: { title: string } }) {
       return (
         <Container>
           <Title> </Title>
-          <div className="w-full prose prose-lg mt-5">
+          <div className="w-full prose prose-lg mt-5 !px-5">
             <ReactMarkdown>
               {`# ${data.title}
 
@@ -44,7 +44,7 @@ ${data.content}`}
         return (
           <Container>
             <Title> </Title>
-            <div className="w-full prose prose-lg mt-5">
+            <div className="w-full prose prose-lg mt-5 !px-5">
               <ReactMarkdown>
                 {`# ${data.title}
 
