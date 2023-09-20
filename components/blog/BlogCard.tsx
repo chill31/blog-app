@@ -34,13 +34,14 @@ export default function BlogCard({
     return `${hour}:${minute}, ${month} ${day}, ${year}`;
   }
 
+
   return (
     <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black h-[30rem]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4 overflow-hidden">
             {title}
-            <Link href={`/blogs/${title.replace(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
+            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
           </SubTitle>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">
             {author}

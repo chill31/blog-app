@@ -4,7 +4,7 @@ import { Input } from "@nextui-org/input";
 import { Textarea } from "@nextui-org/input";
 import { Tooltip } from "@nextui-org/tooltip";
 import { Checkbox } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Button from "../elements/Button";
 
 import { useUser } from "@clerk/nextjs";
@@ -56,6 +56,7 @@ export default function EditBlogForm({
   }, [URL, blogId]);
 
   async function editBlog() {
+    if(titleContent.includes("#") || titleContent.includes("?")) return toast.error("Title cannot contain # or ?");
     const response = await fetch(URL + "/api/blogs/edit/", {
       method: "POST",
       body: JSON.stringify({
@@ -85,7 +86,9 @@ export default function EditBlogForm({
         variant={"underlined"}
         size={"lg"}
         placeholder="Enter Title for your new blog"
-        onChange={(e) => setTitleContent(e.target.value)}
+        onChange={(e) => {
+          setTitleContent(e.target.value);
+        }}
         value={titleContent}
       />
       <Textarea

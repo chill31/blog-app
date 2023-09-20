@@ -35,6 +35,7 @@ export default function NewBlogForm({URL}: {URL: string}) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   async function createBlog() {
+    if(titleContent.includes("#") || titleContent.includes("?")) return toast.error("Title cannot contain # or ?");
     const response = await fetch(URL + "/api/blogs/create", {
       method: "POST",
       body: JSON.stringify({
