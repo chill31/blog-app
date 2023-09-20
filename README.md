@@ -7,9 +7,11 @@
 - Clerk for auth
 - Prisma ORM
 - Cockroach DB
-- [ ] Allows only admins to write blogs
-- [ ] Allows you to set if anyone can read blog or if only logged in people can.
+- [x] Allows only admins to write blogs
+- [x] Allows you to set if anyone can read blog or if only logged in people can.
 - [x] Dashboard
+- [x] Read blogs
+- [ ] Image uploads
 
 ## How to run
 
