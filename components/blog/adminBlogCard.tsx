@@ -51,7 +51,7 @@ export default function AdminBlogCard({
         router.refresh();
       }
       else {
-        toast.error("Error deleting blog");
+        toast.error("Error deleting blog. Error code: " + data.errorCode);
       }
     });
   }
@@ -62,7 +62,7 @@ export default function AdminBlogCard({
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4">
             {title}
-            <Link href={`/blogs/${title.replace(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
+            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
           </SubTitle>
           <span className="my-2 text-xl flex items-center justify-start gap-2">
             <Link href={`/dashboard/edit/${blogId}`}>
