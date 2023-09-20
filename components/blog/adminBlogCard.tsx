@@ -18,7 +18,8 @@ export default function AdminBlogCard({
   shortContent,
   isPublic,
   blogId,
-  URL
+  URL,
+  views
 }: {
   title: string;
   author: string;
@@ -26,7 +27,8 @@ export default function AdminBlogCard({
   shortContent: string;
   isPublic: boolean;
   blogId: number;
-  URL: string
+  URL: string;
+  views: number;
 }) {
 
   const router = useRouter();
@@ -82,6 +84,7 @@ export default function AdminBlogCard({
               </Chip>
             )}
           </span>
+          Views: { views }
         </div>
       </CardHeader>
       <Divider className="!h-[1.5px] bg-slate-300" />

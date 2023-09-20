@@ -18,4 +18,5 @@ model Blog {
   isPublic     Boolean
   id           Int      @id @default(sequence())
   email        String
+  totalViews   Int      @default(0)
 }

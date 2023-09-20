@@ -14,6 +14,14 @@ export async function POST(req: Request) {
                 title: title
             }
         });
+        prisma.blog.update({
+            where: {
+                id: blog.id
+            },
+            data: {
+                totalViews: blog.totalViews + 1
+            }
+        })
         return new Response(JSON.stringify(blog), {
             status: 200,
         })
