@@ -16,7 +16,6 @@ export default function AdminClientSide({ userId, URL }: { userId: string, URL: 
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         router.refresh();
       });
   }

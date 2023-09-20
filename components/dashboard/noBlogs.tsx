@@ -1,11 +1,8 @@
-import Button from "../elements/Button";
-
 export default function NoBlogs() {
   return (
-    <>
-      <h1 className="text-7xl font-bold">You don&apos;t have any blogs.</h1>
-      <Button>Write a blog.</Button> { /* TODO */ }
-      <Button variant="bordered">Read some articles</Button> {/* TODO */ }
-    </>
+    <p className="text-slate-700">
+      You don&apos;t have any blogs. Create a blog by clicking on the{" "}
+      <b>Create Blog</b> button above.
+    </p>
   );
 }

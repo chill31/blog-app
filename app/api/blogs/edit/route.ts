@@ -11,7 +11,8 @@ export async function POST(req: Request) {
     authorEmail,
     shortContent,
     isPublic,
-    userId
+    userId,
+    blogId,
   }: {
     content: string;
     title: string;
@@ -19,24 +20,31 @@ export async function POST(req: Request) {
     shortContent: string;
     isPublic: boolean;
     userId: string;
+    blogId: number;
   } = await req.json();
 
   const randomCode = crypto.randomBytes(4).toString("hex");
 
 
   if (!content || !title || !authorEmail || !shortContent) {
-    log.info("Missing fields", {errorCode: randomCode});
-    return new Response(JSON.stringify({message: "missing required fields", errorCode: randomCode}), {
-      status: 400,
-    });
-  }
-
-  const user = await clerkClient.users.getUser(userId)
-  if (user.emailAddresses[0].emailAddress !== authorEmail) {
-    log.warn("Unauthenticated user tried to create blog")
+    log.info("Missing fields", { errorCode: randomCode });
     return new Response(
       JSON.stringify({
-        message: "You are not authorized to create a blog",
+        message: "missing required fields",
+        errorCode: randomCode,
+      }),
+      {
+        status: 400,
+      }
+    );
+  }
+
+  const user = await clerkClient.users.getUser(userId);
+  if (user.emailAddresses[0].emailAddress !== authorEmail) {
+    log.warn("Unauthenticated user tried to edit blog");
+    return new Response(
+      JSON.stringify({
+        message: "You are not authorized to edit a blog",
         errorCode: randomCode,
       }),
       {
@@ -46,7 +54,10 @@ export async function POST(req: Request) {
   }
 
   try {
-    const blog = await prisma.blog.create({
+    const blog = await prisma.blog.update({
+      where: {
+        id: Number(blogId),
+      },
       data: {
         content,
         title: title,
@@ -59,7 +70,7 @@ export async function POST(req: Request) {
       status: 200,
     });
   } catch (err: any) {
-    log.error("Error creating blog", { err, errorCode: randomCode });
+    log.error("Error editing blog", { err, errorCode: randomCode });
     return new Response(
       JSON.stringify({ message: err.message, errorCode: randomCode }),
       {
@@ -67,7 +78,7 @@ export async function POST(req: Request) {
       }
     );
   } finally {
-    log.flush()
+    log.flush();
     await prisma.$disconnect();
   }
 }

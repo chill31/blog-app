@@ -32,7 +32,6 @@ export default function ClientSide({ URL }: { URL: string }) {
       method: 'POST',
       body: JSON.stringify({ givenPass: enteredPassword })
     }).then(res => res.json()).then(data => {
-      console.log(data);
       if(data.success) {
         toast.success('Successfully logged in as admin');
         fetch('/api/metadata', {

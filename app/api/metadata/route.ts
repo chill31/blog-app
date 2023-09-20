@@ -13,7 +13,6 @@ try {
       admin: admin
     }
   })
-  console.log(user.publicMetadata)
   log.info("Metadata for " + userId, {
     userId: userId,
     metadata: user.publicMetadata

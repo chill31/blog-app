@@ -19,7 +19,6 @@ export default async function NewArticle() {
       }),
     });
     const data = await response.json();
-    console.log(data);
   }
 
   if(!user?.publicMetadata.admin) return (

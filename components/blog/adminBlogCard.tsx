@@ -5,16 +5,20 @@ import { Divider } from "@nextui-org/divider";
 import { Chip } from "@nextui-org/chip";
 import SubTitle from "../elements/subTitle";
 
-import { BsBoxArrowUpRight } from "react-icons/bs";
+import { BsBoxArrowUpRight, BsPencilSquare, BsTrash } from "react-icons/bs";
 import Link from "next/link";
+import Button from "../elements/Button";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation"
 
-export default function BlogCard({
+export default function AdminBlogCard({
   title,
   author,
   date,
   shortContent,
   isPublic,
   blogId,
+  URL
 }: {
   title: string;
   author: string;
@@ -22,7 +26,10 @@ export default function BlogCard({
   shortContent: string;
   isPublic: boolean;
   blogId: number;
+  URL: string
 }) {
+
+  const router = useRouter();
 
   function formatDate(date: Date) {
     const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -34,14 +41,37 @@ export default function BlogCard({
     return `${hour}:${minute}, ${month} ${day}, ${year}`;
   }
 
+  function deleteBlog(id: number) {
+    fetch("/api/blogs/delete", {
+      method: "POST",
+      body: JSON.stringify({ id }),
+    }).then(res => res.json()).then(data => {
+      if(data.success) {
+        toast.success("Blog deleted successfully");
+        router.refresh();
+      }
+      else {
+        toast.error("Error deleting blog");
+      }
+    });
+  }
+
   return (
     <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black h-[30rem]">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
-          <SubTitle className="flex items-center justify-start gap-4 overflow-hidden">
+          <SubTitle className="flex items-center justify-start gap-4">
             {title}
             <Link href={`/blogs/${title.replace(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
           </SubTitle>
+          <span className="my-2 text-xl flex items-center justify-start gap-2">
+            <Link href={`/dashboard/edit/${blogId}`}>
+              <BsPencilSquare />
+            </Link>
+            <button className='!p-0 bg-transparent' onClick={() => deleteBlog(blogId)}>
+              <BsTrash className='text-red-500' />
+            </button>
+          </span>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">
             {author}
             {isPublic ? (
