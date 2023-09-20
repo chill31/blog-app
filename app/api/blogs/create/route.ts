@@ -1,6 +1,8 @@
-import { currentUser } from "@clerk/nextjs";
+import { currentUser, clerkClient } from "@clerk/nextjs";
+import { log } from "@logtail/next";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
+import crypto from "crypto";
 
 export async function POST(req: Request) {
   const {
@@ -9,48 +11,64 @@ export async function POST(req: Request) {
     authorEmail,
     shortContent,
     isPublic,
+    userId
   }: {
     content: string;
     title: string;
     authorEmail: string;
     shortContent: string;
     isPublic: boolean;
+    userId: string;
   } = await req.json();
 
-  if(!content || !title || !authorEmail || !shortContent || !isPublic) {
-    return new Response("Missing required fields", {
-        status: 400,
-    });
-    // TODO: add logging
-    }
+  const randomCode = crypto.randomBytes(4).toString("hex");
 
-  const user = await currentUser();
-  if (user?.emailAddresses[0].emailAddress !== authorEmail) {
-    return new Response("You are not authorized to create a blog", {
-      status: 403,
+  console.log("ran")
+
+  if (!content || !title || !authorEmail || !shortContent || !isPublic) {
+    log.info("Missing fields");
+    return new Response("Missing required fields", {
+      status: 400,
     });
-    // TODO Add logging
+  }
+
+  const user = await clerkClient.users.getUser(userId)
+  if (user.emailAddresses[0].emailAddress !== authorEmail) {
+    log.warn("Unauthenticated user tried to create blog")
+    return new Response(
+      JSON.stringify({
+        message: "You are not authorized to create a blog",
+        errorCode: randomCode,
+      }),
+      {
+        status: 403,
+      }
+    );
   }
 
   try {
-
-      const blog = await prisma.blog.create({
-        data: {
-          content,
-          title,
-          shortContent,
-          isPublic,
-          email: authorEmail
-        },
-      });
-  }
-  catch(err: any) {
-    return new Response(JSON.stringify({err: err.message}), {
-        status: 500,
+    const blog = await prisma.blog.create({
+      data: {
+        content,
+        title: randomCode,
+        shortContent,
+        isPublic,
+        email: authorEmail,
+      },
     });
-    // TODO: Add logging
-  }
-  finally {
+    return new Response(JSON.stringify(blog), {
+      status: 200,
+    });
+  } catch (err: any) {
+    log.error("Error creating blog", { err, errorCode: randomCode });
+    return new Response(
+      JSON.stringify({ message: err.message, errorCode: randomCode }),
+      {
+        status: 500,
+      }
+    );
+  } finally {
+    log.flush()
     await prisma.$disconnect();
   }
 }

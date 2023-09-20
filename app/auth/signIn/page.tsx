@@ -3,6 +3,7 @@ import Link from "next/link";
 import { SignIn, currentUser, redirectToSignIn } from "@clerk/nextjs";
 import SubTitle from "@/components/elements/subTitle";
 import Container from "@/components/body/Container";
+import { Suspense } from "react";
 
 export default async function SignInPage() {
   const user = await currentUser();
@@ -21,7 +22,9 @@ export default async function SignInPage() {
     <Container>
       <SubTitle>Sign In</SubTitle>
       <div>
-        <SignIn />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SignIn />
+        </Suspense>
       </div>
     </Container>
   );

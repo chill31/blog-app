@@ -4,6 +4,7 @@ import Button from "@/components/elements/Button";
 import SubTitle from "@/components/elements/subTitle";
 import Link from "next/link";
 import Container from "@/components/body/Container";
+import { Suspense } from "react";
 
 export default async function SignUpPage() {
   const user = await currentUser();
@@ -23,7 +24,9 @@ export default async function SignUpPage() {
     <Container>
       <SubTitle>Sign Up</SubTitle>
       <div>
-        <SignUp />
+        <Suspense fallback={<div>Loading...</div>}>
+          <SignUp />
+        </Suspense>
       </div>
     </Container>
   );
