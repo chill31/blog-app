@@ -141,7 +141,7 @@ export default function EditBlogForm({
                 <ReactMarkdown>{descriptiveContent}</ReactMarkdown>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="primary" variant="light" onPress={onClose}>
                   Close
                 </Button>
               </ModalFooter>

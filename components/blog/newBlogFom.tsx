@@ -117,7 +117,7 @@ export default function NewBlogForm({URL}: {URL: string}) {
                 <ReactMarkdown>{descriptiveContent}</ReactMarkdown>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button color="success" variant="light" onPress={onClose}>
                   Close
                 </Button>
               </ModalFooter>

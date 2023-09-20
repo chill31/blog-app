@@ -88,6 +88,7 @@ export default async function Dashboard() {
               shortContent={blog.shortContent}
               title={blog.title}
               URL={process.env.URL ?? ""}
+              views={blog.totalViews}
             />
           ))}
         </BlogContainer>
