@@ -1,4 +1,5 @@
 import Container from "@/components/body/Container";
+import AdminClientSide from "@/components/dashboard/adminClient";
 import ClientSide from "@/components/dashboard/client";
 import Button from "@/components/elements/Button";
 import Title from "@/components/elements/Title";
@@ -6,6 +7,7 @@ import { SignInButton, currentUser } from "@clerk/nextjs";
 import Link from "next/link";
 
 export default async function Dashboard() {
+
   const user = await currentUser();
   if (!user)
     return (
@@ -24,7 +26,6 @@ export default async function Dashboard() {
       body: JSON.stringify({ admin: true, userId: user?.id }),
     });
     const data = await res.json();
-    console.log(data);
   }
 
   async function removeAdmin() {
@@ -33,14 +34,13 @@ export default async function Dashboard() {
       body: JSON.stringify({ admin: false, userId: user?.id }),
     });
     const data = await res.json();
-    console.log(data);
   }
 
-  if (!user.publicMetadata) {
+  if (user.publicMetadata.admin === undefined) {
     removeAdmin();
   }
 
-  if (user.publicMetadata.admin == false) {
+  if (!user.publicMetadata.admin) {
     return (
       <Container>
         <Title>Dashboard</Title>
@@ -56,8 +56,7 @@ export default async function Dashboard() {
   return (
     <Container>
       <Title>Admin Login</Title>
-      <Button>Log out as admin</Button>
-      <Link href="/dashboard/new-article"><Button>Create Blog</Button></Link>
+      <AdminClientSide userId={user.id} URL={process.env.URL ?? ''} />
     </Container>
   );
 }

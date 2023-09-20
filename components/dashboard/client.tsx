@@ -15,11 +15,14 @@ import { useDisclosure } from "@nextui-org/react";
 import { clerkClient, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 
+import {useRouter} from 'next/navigation'
+
 import toast from 'react-hot-toast';
 
 export default function ClientSide() {
 
   const {user} = useUser();
+  const router = useRouter();
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [enteredPassword, setEnteredPassword] = useState("");
@@ -36,7 +39,7 @@ export default function ClientSide() {
           method: 'POST',
           body: JSON.stringify({ userId: user?.id, admin: true })
         }).then(res => res.json()).then(data => {
-          console.log(data);
+          router.refresh();
         })
 
       } else {

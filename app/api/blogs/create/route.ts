@@ -26,8 +26,8 @@ export async function POST(req: Request) {
   console.log("ran")
 
   if (!content || !title || !authorEmail || !shortContent || !isPublic) {
-    log.info("Missing fields");
-    return new Response("Missing required fields", {
+    log.info("Missing fields", {errorCode: randomCode});
+    return new Response(JSON.stringify({message: "missing required fields", errorCode: randomCode}), {
       status: 400,
     });
   }
@@ -50,7 +50,7 @@ export async function POST(req: Request) {
     const blog = await prisma.blog.create({
       data: {
         content,
-        title: randomCode,
+        title: title,
         shortContent,
         isPublic,
         email: authorEmail,
