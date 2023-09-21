@@ -11,7 +11,3 @@
 .dark .prose {
   @apply prose-invert;
 }
-
-.dark {
-  @apply bg-zinc-900
-}
