@@ -14,7 +14,8 @@ export async function POST(req: Request) {
                 title: title
             }
         });
-        prisma.blog.update({
+        log.info("Incrementing total views for blog: " + blog.title)
+        await prisma.blog.update({
             where: {
                 id: blog.id
             },
