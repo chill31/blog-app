@@ -9,7 +9,7 @@ export default async function Blog({ params }: { params: { title: string } }) {
   const user = await currentUser();
 
   const formatedTitle = params.title.replaceAll("-", " ");
-  const response = await fetch(process.env.URL ?? 'https://' + process.env.VERCEL_URL + `/api/blogs/getBlogByTitle`, {
+  const response = await fetch(process.env.URL + `/api/blogs/getBlogByTitle`, {
     method: "POST",
     body: JSON.stringify({ title: formatedTitle }),
   });
