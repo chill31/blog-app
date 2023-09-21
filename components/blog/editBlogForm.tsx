@@ -19,6 +19,9 @@ import {
 } from "@nextui-org/modal";
 import { useDisclosure } from "@nextui-org/modal";
 
+import { UploadButton } from "@/helpers/generateUploadFileComponent";
+import "@uploadthing/react/styles.css";
+
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
 
@@ -38,6 +41,10 @@ export default function EditBlogForm({
   const [isPublic, setIsPublic] = useState(true);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { isOpen: isOpen2, onOpen: onOpen2, onOpenChange: onOpenChange2 } = useDisclosure();
+
+  const [fileName, setFileName] = useState('');
+  const [fileLink, setFileLink] = useState('');
 
   useEffect(() => {
     fetch(URL + "/api/blogs/edit/getBlogData", {
@@ -56,7 +63,7 @@ export default function EditBlogForm({
   }, [URL, blogId]);
 
   async function editBlog() {
-    if(titleContent.includes("#") || titleContent.includes("?")) return toast.error("Title cannot contain # or ?");
+    if (/^[a-zA-Z0-9\s]*$/.test(titleContent) === false) return toast.error("Title can only contain numbers, spaces and alphabets");
     const response = await fetch(URL + "/api/blogs/edit/", {
       method: "POST",
       body: JSON.stringify({
@@ -91,16 +98,32 @@ export default function EditBlogForm({
         }}
         value={titleContent}
       />
-      <Textarea
-        variant={"underlined"}
-        className="overflow-scroll"
-        size={"lg"}
-        minRows={1}
-        maxRows={30}
-        placeholder="Enter descriptive content which explains everything about your blog. Add markdown for better interactivity"
-        onChange={(e) => setDescriptiveContent(e.target.value)}
-        value={descriptiveContent}
-      ></Textarea>
+
+      <div className="w-full flex flex-col items-start justify-start gap-2">
+        <UploadButton
+          endpoint="imageUploader"
+          className="!m-0"
+          onClientUploadComplete={(res) => {
+            toast.success("Upload Completed");
+            onOpen2();
+            setFileName(res !== undefined ? res[0].name : "");
+            setFileLink(res !== undefined ? res[0].url : "");
+          }}
+          onUploadError={(error: Error) => {
+            toast.error(`ERROR! ${error.message}\nTry again sometime later.`);
+          }}
+        />
+        <Textarea
+          variant={"underlined"}
+          className="overflow-scroll"
+          size={"lg"}
+          minRows={1}
+          maxRows={30}
+          placeholder="Enter descriptive content which explains everything about your blog. Add markdown for better interactivity"
+          onChange={(e) => setDescriptiveContent(e.target.value)}
+          value={descriptiveContent}
+        ></Textarea>
+      </div>
 
       <Textarea
         variant={"underlined"}
@@ -119,7 +142,7 @@ export default function EditBlogForm({
           content={"If the blog is available to all users or not"}
           closeDelay={0}
         >
-          <label className="text-slate-600">Public?</label>
+          <label className="text-slate-600 publiclabel">Public?</label>
         </Tooltip>
         <Checkbox
           isSelected={isPublic}
@@ -130,10 +153,15 @@ export default function EditBlogForm({
 
       <span className="[align-self:flex-end] flex gap-4 align-self">
         <Button onPress={onOpen}>Preview Blog</Button>
-        <Button onPress={editBlog}>Publish changes made to the blog</Button>
+        <Button onPress={editBlog}>Publish changes</Button>
       </span>
 
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="p-5">
+      <Modal
+        scrollBehavior="inside"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        className="p-5"
+      >
         <ModalContent>
           {(onClose) => (
             <>
@@ -141,7 +169,37 @@ export default function EditBlogForm({
                 <ReactMarkdown>{descriptiveContent}</ReactMarkdown>
               </ModalBody>
               <ModalFooter>
-                <Button color="primary" variant="light" onPress={onClose}>
+                <Button color="success" onPress={onClose}>
+                  Close
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
+
+      <Modal
+        scrollBehavior="inside"
+        isOpen={isOpen2}
+        onOpenChange={onOpenChange2}
+        className="p-5"
+      >
+        <ModalContent>
+          {(onClose2) => (
+            <>
+              <ModalHeader className="!text-h2">Uploaded</ModalHeader>
+              <ModalBody>
+                <ReactMarkdown>{`\`\`\`![${fileName}](${fileLink})\`\`\``}</ReactMarkdown>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  onClick={() =>
+                    navigator.clipboard.writeText(`![${fileName}](${fileLink})`)
+                  }
+                >
+                  Copy
+                </Button>
+                <Button color="success" onPress={onClose2}>
                   Close
                 </Button>
               </ModalFooter>

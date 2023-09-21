@@ -52,7 +52,7 @@ export default function ClientSide({ URL }: { URL: string }) {
   return (
     <>
       <Button onPress={onOpen}>Sign in as admin</Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
+      <Modal scrollBehavior="inside" isOpen={isOpen} onOpenChange={onOpenChange} placement="top-center">
         <ModalContent>
           {(onClose) => (
             <>

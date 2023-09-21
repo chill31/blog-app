@@ -51,16 +51,18 @@ export default async function Dashboard() {
   if (!user.publicMetadata.admin) {
     return (
       <Container>
-        <Title className="max-sm:mt-12">Dashboard</Title>
-
-        <SubTitle>Theme</SubTitle>
-        <ThemeSwitcher />
+        <Title>Dashboard</Title>
 
         <ClientSide URL={process.env.URL ?? ""} />
         <p className="mx-4 text-center">
-          This page is only for administrators. If you have a admin pass, then
+          To manage blogs, you need to be an administrator. If you have a admin pass, then
           click on the <b>Log in as admin</b> button
         </p>
+
+        <div className="w-[100vw] flex flex-col gap-0 items-start justify-center mt-4 px-4">
+          <SubTitle>Theme</SubTitle>
+          <ThemeSwitcher />
+        </div>
       </Container>
     );
   }
@@ -78,28 +80,26 @@ export default async function Dashboard() {
       <AdminClientSide userId={user.id} URL={process.env.URL ?? ""} />
 
       <div className="w-[100vw] flex flex-col gap-0 items-start justify-center mt-4 px-4">
-
-      <SubTitle>Theme</SubTitle>
-      <ThemeSwitcher />
+        <SubTitle>Theme</SubTitle>
+        <ThemeSwitcher />
 
         <SubTitle className="mt-12">My Blogs</SubTitle>
         <BlogContainer className="[justify-content:flex-start_!important]">
-          {filterByAdmin.length === 0 && (
-            <NoBlogs />
-          )}
-          {filterByAdmin.length > 0 && filterByAdmin.map((blog: any, k: number) => (
-            <AdminBlogCard
-              key={k}
-              author={blog.email}
-              date={blog.date}
-              blogId={blog.id}
-              isPublic={blog.isPublic}
-              shortContent={blog.shortContent}
-              title={blog.title}
-              URL={process.env.URL ?? ""}
-              views={blog.totalViews}
-            />
-          ))}
+          {filterByAdmin.length === 0 && <NoBlogs />}
+          {filterByAdmin.length > 0 &&
+            filterByAdmin.map((blog: any, k: number) => (
+              <AdminBlogCard
+                key={k}
+                author={blog.email}
+                date={blog.date}
+                blogId={blog.id}
+                isPublic={blog.isPublic}
+                shortContent={blog.shortContent}
+                title={blog.title}
+                URL={process.env.URL ?? ""}
+                views={blog.totalViews}
+              />
+            ))}
         </BlogContainer>
       </div>
     </Container>

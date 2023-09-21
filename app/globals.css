@@ -15,3 +15,7 @@
 .dark {
   @apply bg-zinc-900
 }
+
+.dark .noblogs, .dark .publiclabel {
+  @apply text-gray-400;
+}
