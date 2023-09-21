@@ -11,7 +11,7 @@
 - [x] Allows you to set if anyone can read blog or if only logged in people can.
 - [x] Dashboard
 - [x] Read blogs
-- [ ] Image uploads
+- [x] Image uploads
 
 ## How to run
 
