@@ -130,7 +130,7 @@ export default function EditBlogForm({
 
       <span className="[align-self:flex-end] flex gap-4 align-self">
         <Button onPress={onOpen}>Preview Blog</Button>
-        <Button onPress={editBlog}>Create Blog</Button>
+        <Button onPress={editBlog}>Publish changes made to the blog</Button>
       </span>
 
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} className="p-5">

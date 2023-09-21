@@ -3,6 +3,7 @@ import Title from "@/components/elements/Title";
 import ReactMarkdown from "react-markdown";
 
 import { SignIn, currentUser } from "@clerk/nextjs";
+import { useTheme } from "next-themes";
 
 export default async function Blog({ params }: { params: { title: string } }) {
   const user = await currentUser();

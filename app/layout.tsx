@@ -14,10 +14,11 @@ import { ClerkProvider } from '@clerk/nextjs'
 
 import { Toaster } from 'react-hot-toast';
 
+
 export default function RootLayout({children}: { children: React.ReactNode }) {
   return (
     <ClerkProvider>
-    <html lang="en" className='light'>
+    <html lang="en">
       <body className={inter.className}>
         <Providers>
           {children}
