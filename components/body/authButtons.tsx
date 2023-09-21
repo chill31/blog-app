@@ -7,7 +7,7 @@ export default async function AuthButtons() {
   const user = await currentUser();
 
   return (
-    <div className="absolute flex flex-row-reverse top-5 right-5 items-center justify-start gap-4 max-sm:[flex-flow:unset] max-sm:[position:unset]">
+    <div className="absolute flex flex-row-reverse top-5 right-5 items-center justify-start gap-4 ">
       {user ? (
         <>
           <UserButton afterSignOutUrl="/" />

@@ -12,7 +12,7 @@ export default function Title({
   return (
     <>
       <h1
-        className={`text-h1 font-bold max-sm:text-[3rem] ${
+        className={`text-h1 font-bold max-sm:text-[3rem] max-sm:mt-16 ${
           className ? className : ""
         }`}
       >

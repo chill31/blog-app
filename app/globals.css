@@ -7,3 +7,11 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.dark .prose {
+  @apply prose-invert;
+}
+
+.dark {
+  @apply bg-zinc-900
+}

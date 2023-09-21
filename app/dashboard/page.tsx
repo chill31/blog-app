@@ -10,6 +10,7 @@ import BlogContainer from "@/components/blog/BlogContainer";
 import SubTitle from "@/components/elements/subTitle";
 import AdminBlogCard from "@/components/blog/adminBlogCard";
 import NoBlogs from "@/components/dashboard/noBlogs";
+import { ThemeSwitcher } from "@/components/body/ThemeSwitcher";
 
 export default async function Dashboard() {
   const user = await currentUser();
@@ -50,7 +51,11 @@ export default async function Dashboard() {
   if (!user.publicMetadata.admin) {
     return (
       <Container>
-        <Title>Dashboard</Title>
+        <Title className="max-sm:mt-12">Dashboard</Title>
+
+        <SubTitle>Theme</SubTitle>
+        <ThemeSwitcher />
+
         <ClientSide URL={process.env.URL ?? ""} />
         <p className="mx-4 text-center">
           This page is only for administrators. If you have a admin pass, then
@@ -73,7 +78,11 @@ export default async function Dashboard() {
       <AdminClientSide userId={user.id} URL={process.env.URL ?? ""} />
 
       <div className="w-[100vw] flex flex-col gap-0 items-start justify-center mt-4 px-4">
-        <SubTitle>My Blogs</SubTitle>
+
+      <SubTitle>Theme</SubTitle>
+      <ThemeSwitcher />
+
+        <SubTitle className="mt-12">My Blogs</SubTitle>
         <BlogContainer className="[justify-content:flex-start_!important]">
           {filterByAdmin.length === 0 && (
             <NoBlogs />
