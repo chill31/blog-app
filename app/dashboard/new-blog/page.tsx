@@ -31,7 +31,7 @@ export default async function NewArticle() {
   return (
     <Container>
       <Title>New Blog</Title>
-      <NewBlogForm URL={process.env.URL ?? ''} />
+      <NewBlogForm URL={process.env.URL ?? process.env.VERCEL_URL ?? ''} />
     </Container>
   );
 }

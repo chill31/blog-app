@@ -20,7 +20,7 @@ type End = "frontend" | "backend";
 async function getTotalBlogs({ end }: { end: End }) {
   log.info("Getting total blogs", { end });
   if (end === "frontend") {
-    const blogs = await fetch(process.env.URL + "/api/blogs/total");
+    const blogs = await fetch(process.env.URL ?? process.env.VERCEL_URL + "/api/blogs/total");
     const blogsArr = await prisma.blog.findMany();
 
     return JSON.stringify({ totalBlogs: await blogs.json(), blogs: blogsArr });
@@ -45,7 +45,7 @@ async function getBlogsForEmail({ email, end }: { email: string; end: End }) {
   // TODO: Logging
   if (end === "frontend") {
     try {
-      const blogs = await fetch(process.env.URL + "/api/blogs/totalEmail", {
+      const blogs = await fetch(process.env.URL ?? process.env.VERCEL_URL + "/api/blogs/totalEmail", {
         method: "POST",
         body: JSON.stringify({ email }),
       });
