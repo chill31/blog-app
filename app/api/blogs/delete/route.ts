@@ -26,7 +26,12 @@ export async function POST(req: Request) {
     });
 
     return new Response(
-      JSON.stringify({ message: e.message, success: false, err: e, errorCode: randomCode }),
+      JSON.stringify({
+        message: e.message,
+        success: false,
+        err: e,
+        errorCode: randomCode,
+      }),
       {
         status: 403,
       }

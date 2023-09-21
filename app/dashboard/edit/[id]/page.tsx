@@ -31,7 +31,10 @@ export default async function EditBlog({ params }: { params: { id: number } }) {
   return (
     <Container>
       <Title>Unauthorized</Title>
-      <p className="mx-4 text-center">you cannot edit this blog as this was created by someone else.<br></br>Error: {data.errorCode}</p>
+      <p className="mx-4 text-center">
+        you cannot edit this blog as this was created by someone else.<br></br>
+        Error: {data.errorCode}
+      </p>
     </Container>
   );
 }

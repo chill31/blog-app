@@ -5,7 +5,6 @@ const prisma = new PrismaClient();
 import crypto from "crypto";
 
 export async function POST(req: Request) {
-
   const randomCode = crypto.randomBytes(4).toString("hex");
 
   const {
@@ -27,15 +26,22 @@ export async function POST(req: Request) {
     }
   } catch (e: any) {
     log.error(e.message, { errorCode: randomCode });
-    return new Response(JSON.stringify({msg: e.message, errorCode: randomCode}), { status: 500 });
+    return new Response(
+      JSON.stringify({ msg: e.message, errorCode: randomCode }),
+      { status: 500 }
+    );
   } finally {
-
     log.flush();
     prisma.$disconnect();
-
   }
 
-  return new Response(JSON.stringify({msg: "the user cannot edit this blog", errorCode: randomCode}), {
-    status: 403,
-  });
+  return new Response(
+    JSON.stringify({
+      msg: "the user cannot edit this blog",
+      errorCode: randomCode,
+    }),
+    {
+      status: 403,
+    }
+  );
 }

@@ -1,4 +1,4 @@
-import { currentUser, clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs";
 import { log } from "@logtail/next";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -11,7 +11,7 @@ export async function POST(req: Request) {
     authorEmail,
     shortContent,
     isPublic,
-    userId
+    userId,
   }: {
     content: string;
     title: string;
@@ -23,17 +23,22 @@ export async function POST(req: Request) {
 
   const randomCode = crypto.randomBytes(4).toString("hex");
 
-
   if (!content || !title || !authorEmail || !shortContent) {
-    log.info("Missing fields", {errorCode: randomCode});
-    return new Response(JSON.stringify({message: "missing required fields", errorCode: randomCode}), {
-      status: 400,
-    });
+    log.info("Missing fields", { errorCode: randomCode });
+    return new Response(
+      JSON.stringify({
+        message: "missing required fields",
+        errorCode: randomCode,
+      }),
+      {
+        status: 400,
+      }
+    );
   }
 
-  const user = await clerkClient.users.getUser(userId)
+  const user = await clerkClient.users.getUser(userId);
   if (user.emailAddresses[0].emailAddress !== authorEmail) {
-    log.warn("Unauthenticated user tried to create blog")
+    log.warn("Unauthenticated user tried to create blog");
     return new Response(
       JSON.stringify({
         message: "You are not authorized to create a blog",
@@ -67,7 +72,7 @@ export async function POST(req: Request) {
       }
     );
   } finally {
-    log.flush()
+    log.flush();
     await prisma.$disconnect();
   }
 }

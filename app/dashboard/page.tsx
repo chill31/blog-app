@@ -55,8 +55,8 @@ export default async function Dashboard() {
 
         <ClientSide URL={process.env.URL ?? ""} />
         <p className="mx-4 text-center">
-          To manage blogs, you need to be an administrator. If you have a admin pass, then
-          click on the <b>Log in as admin</b> button
+          To manage blogs, you need to be an administrator. If you have a admin
+          pass, then click on the <b>Log in as admin</b> button
         </p>
 
         <div className="w-[100vw] flex flex-col gap-0 items-start justify-center mt-4 px-4">

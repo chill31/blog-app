@@ -21,17 +21,18 @@ export default async function NewArticle() {
     const data = await response.json();
   }
 
-  if(!user?.publicMetadata.admin) return (
-    <Container>
-      <Title>Not An Admin</Title>
-      <p>You cannot create blogs if you are not an admin</p>      
-    </Container>
-  )
+  if (!user?.publicMetadata.admin)
+    return (
+      <Container>
+        <Title>Not An Admin</Title>
+        <p>You cannot create blogs if you are not an admin</p>
+      </Container>
+    );
 
   return (
     <Container>
       <Title>New Blog</Title>
-      <NewBlogForm URL={process.env.URL ?? ''} />
+      <NewBlogForm URL={process.env.URL ?? ""} />
     </Container>
   );
 }

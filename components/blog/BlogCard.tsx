@@ -34,9 +34,8 @@ export default function BlogCard({
     return `${hour}:${minute}, ${month} ${day}, ${year}`;
   }
 
-
   return (
-    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black h-[30rem]">
+    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] h-[30rem] blogcard">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4 overflow-hidden">

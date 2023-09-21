@@ -11,6 +11,7 @@ export default async function Home() {
   const totalBlogs = await getTotalBlogs({end: 'frontend'});
   const blogs = JSON.parse(totalBlogs ?? '[]')?.blogs;
 
+
   return (
     <Container>
       <Title>Blog</Title>

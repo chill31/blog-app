@@ -1,4 +1,4 @@
-import { currentUser, clerkClient } from "@clerk/nextjs";
+import { clerkClient } from "@clerk/nextjs";
 import { log } from "@logtail/next";
 import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
@@ -24,7 +24,6 @@ export async function POST(req: Request) {
   } = await req.json();
 
   const randomCode = crypto.randomBytes(4).toString("hex");
-
 
   if (!content || !title || !authorEmail || !shortContent) {
     log.info("Missing fields", { errorCode: randomCode });

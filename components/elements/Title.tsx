@@ -3,7 +3,6 @@ import AuthButtons from "../body/authButtons";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
-
 export default function Title({
   children,
   className,

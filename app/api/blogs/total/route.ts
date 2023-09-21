@@ -1,5 +1,4 @@
 import { getTotalBlogs } from "@/helpers/getBlogs";
-import { log } from "@logtail/next";
 
 export async function GET() {
   try {

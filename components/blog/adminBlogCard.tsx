@@ -7,7 +7,6 @@ import SubTitle from "../elements/subTitle";
 
 import { BsBoxArrowUpRight, BsPencilSquare, BsTrash } from "react-icons/bs";
 import Link from "next/link";
-import Button from "../elements/Button";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation"
 
@@ -59,7 +58,7 @@ export default function AdminBlogCard({
   }
 
   return (
-    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] !border-black h-[30rem]">
+    <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] h-[30rem] blogcard">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4">

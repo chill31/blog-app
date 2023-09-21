@@ -3,7 +3,7 @@ import Title from "@/components/elements/Title";
 import ReactMarkdown from "react-markdown";
 
 import { SignIn, currentUser } from "@clerk/nextjs";
-import { useTheme } from "next-themes";
+import { Suspense } from "react";
 
 export default async function Blog({ params }: { params: { title: string } }) {
   const user = await currentUser();
@@ -15,22 +15,25 @@ export default async function Blog({ params }: { params: { title: string } }) {
   });
   const data = await response.json();
 
+
   if (response.ok) {
     if (data.isPublic) {
       return (
         <Container>
           <Title> </Title>
-          <div className="w-full prose prose-lg mt-5 !px-5">
-            <ReactMarkdown>
-              {`# ${data.title}
+          <Suspense fallback={<div>Loading...</div>}>
+            <div className="w-full prose prose-lg mt-5 !px-5">
+              <ReactMarkdown>
+                {`# ${data.title}
 
 **by ${data.email}**
 
 ---
 
 ${data.content}`}
-            </ReactMarkdown>
-          </div>
+              </ReactMarkdown>
+            </div>
+          </Suspense>
         </Container>
       );
     } else if (!data.isPublic) {
@@ -38,7 +41,9 @@ ${data.content}`}
         return (
           <Container>
             <Title>Unauthorized</Title>
-            <SignIn redirectUrl={`/blogs/${params.title.replaceAll(" ", "-")}`} />
+            <SignIn
+              redirectUrl={`/blogs/${params.title.replaceAll(" ", "-")}`}
+            />
           </Container>
         );
       } else {
