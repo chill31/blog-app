@@ -8,7 +8,7 @@ export default async function EditBlog({ params }: { params: { id: number } }) {
   const blogId = params.id;
 
   const response = await fetch(
-    process.env.URL ?? process.env.VERCEL_URL + "/api/blogs/checkBlogOwnership",
+    process.env.URL ?? 'https://' + process.env.VERCEL_URL + "/api/blogs/checkBlogOwnership",
     {
       method: "POST",
       body: JSON.stringify({
@@ -23,7 +23,7 @@ export default async function EditBlog({ params }: { params: { id: number } }) {
     return (
       <Container>
         <Title>Edit Blog</Title>
-        <EditBlogForm URL={process.env.URL ?? process.env.VERCEL_URL ?? ""} blogId={blogId} />
+        <EditBlogForm URL={process.env.URL ?? 'https://' + process.env.VERCEL_URL ?? ""} blogId={blogId} />
       </Container>
     );
   }

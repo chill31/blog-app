@@ -29,7 +29,7 @@ export default async function Dashboard() {
     );
 
   async function setAdmin() {
-    const res = await fetch(process.env.URL ?? process.env.VERCEL_URL + "/api/metadata/", {
+    const res = await fetch(process.env.URL ?? 'https://' + process.env.VERCEL_URL + "/api/metadata/", {
       method: "POST",
       body: JSON.stringify({ admin: true, userId: user?.id }),
     });
@@ -37,7 +37,7 @@ export default async function Dashboard() {
   }
 
   async function removeAdmin() {
-    const res = await fetch(process.env.URL ?? process.env.VERCEL_URL + "/api/metadata/", {
+    const res = await fetch(process.env.URL ?? 'https://' + process.env.VERCEL_URL + "/api/metadata/", {
       method: "POST",
       body: JSON.stringify({ admin: false, userId: user?.id }),
     });
@@ -56,7 +56,7 @@ export default async function Dashboard() {
         <SubTitle>Theme</SubTitle>
         <ThemeSwitcher />
 
-        <ClientSide URL={process.env.URL ?? process.env.VERCEL_URL ?? ""} />
+        <ClientSide URL={process.env.URL ?? 'https://' + process.env.VERCEL_URL ?? ""} />
         <p className="mx-4 text-center">
           This page is only for administrators. If you have a admin pass, then
           click on the <b>Log in as admin</b> button
@@ -75,7 +75,7 @@ export default async function Dashboard() {
   return (
     <Container>
       <Title>Admin</Title>
-      <AdminClientSide userId={user.id} URL={process.env.URL ?? process.env.VERCEL_URL ?? ""} />
+      <AdminClientSide userId={user.id} URL={process.env.URL ?? 'https://' + process.env.VERCEL_URL ?? ""} />
 
       <div className="w-[100vw] flex flex-col gap-0 items-start justify-center mt-4 px-4">
 
@@ -96,7 +96,7 @@ export default async function Dashboard() {
               isPublic={blog.isPublic}
               shortContent={blog.shortContent}
               title={blog.title}
-              URL={process.env.URL ?? process.env.VERCEL_URL ?? ""}
+              URL={process.env.URL ?? 'https://' + process.env.VERCEL_URL ?? ""}
               views={blog.totalViews}
             />
           ))}
