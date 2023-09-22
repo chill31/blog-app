@@ -5,6 +5,8 @@ import ReactMarkdown from "react-markdown";
 import { SignIn, currentUser } from "@clerk/nextjs";
 import { Suspense } from "react";
 
+import Prose from "@/components/blog/Prose";
+
 export default async function Blog({ params }: { params: { title: string } }) {
   const user = await currentUser();
 
@@ -15,14 +17,13 @@ export default async function Blog({ params }: { params: { title: string } }) {
   });
   const data = await response.json();
 
-
   if (response.ok) {
     if (data.isPublic) {
       return (
         <Container>
           <Title> </Title>
           <Suspense fallback={<div>Loading...</div>}>
-            <div className="w-full prose prose-lg mt-5 !px-5">
+            <Prose>
               <ReactMarkdown>
                 {`# ${data.title}
 
@@ -32,7 +33,7 @@ export default async function Blog({ params }: { params: { title: string } }) {
 
 ${data.content}`}
               </ReactMarkdown>
-            </div>
+            </Prose>
           </Suspense>
         </Container>
       );
@@ -50,7 +51,7 @@ ${data.content}`}
         return (
           <Container>
             <Title> </Title>
-            <div className="w-full prose prose-lg mt-5 !px-5">
+            <Prose>
               <ReactMarkdown>
                 {`# ${data.title}
 
@@ -60,7 +61,7 @@ ${data.content}`}
 
 ${data.content}`}
               </ReactMarkdown>
-            </div>
+            </Prose>
           </Container>
         );
       }

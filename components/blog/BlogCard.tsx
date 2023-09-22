@@ -23,9 +23,21 @@ export default function BlogCard({
   isPublic: boolean;
   blogId: number;
 }) {
-
   function formatDate(date: Date) {
-    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
     const month = months[date.getMonth()];
     const year = date.getFullYear();
     const day = date.getDay();
@@ -34,13 +46,19 @@ export default function BlogCard({
     return `${hour}:${minute}, ${month} ${day}, ${year}`;
   }
 
+  const maxLength = 9;
+
   return (
     <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] h-[30rem] blogcard">
       <CardHeader className="flex gap-3">
         <div className="flex flex-col">
           <SubTitle className="flex items-center justify-start gap-4 overflow-hidden">
-            {title}
-            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}><BsBoxArrowUpRight className="!text-lg" /></Link>
+            {title.length > maxLength
+              ? `${title.substring(0, maxLength)}...`
+              : title}
+            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}>
+              <BsBoxArrowUpRight className="!text-lg" />
+            </Link>
           </SubTitle>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">
             {author}
