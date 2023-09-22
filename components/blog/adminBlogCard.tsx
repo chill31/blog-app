@@ -33,12 +33,13 @@ export default function AdminBlogCard({
   const router = useRouter();
 
   function formatDate(date: Date) {
-    const months = ["Jan", "Feb", "Mar", "Apr", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const month = months[date.getMonth()];
     const year = date.getFullYear();
     const day = date.getDay();
     const hour = date.getHours();
     const minute = date.getMinutes();
+    console.log(month, date.getMonth());
     return `${hour}:${minute}, ${month} ${day}, ${year}`;
   }
 
