@@ -25,6 +25,8 @@ import "@uploadthing/react/styles.css";
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
 
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 export default function NewBlogForm({ URL }: { URL: string }) {
   const { user } = useUser();
   const router = useRouter();
@@ -40,7 +42,10 @@ export default function NewBlogForm({ URL }: { URL: string }) {
   const [fileName, setFileName] = useState('');
   const [fileLink, setFileLink] = useState('');
 
+  const [createButtonLoading, setCreateButtonLoading] = useState(false);
+
   async function createBlog() {
+    setCreateButtonLoading(true);
     if (/^[a-zA-Z0-9\s]*$/.test(titleContent) === false) return toast.error("Title can only contain numbers, spaces and alphabets");
     const response = await fetch(URL + "/api/blogs/create", {
       method: "POST",
@@ -56,11 +61,13 @@ export default function NewBlogForm({ URL }: { URL: string }) {
     const data = await response.json();
     if (response.ok) {
       toast.success("Blog created successfully");
+      setCreateButtonLoading(false);
       router.push("/");
     } else {
       toast.error(
         `Error creating blog. Try again later. Error: ${data.errorCode}`
       );
+      setCreateButtonLoading(false);
     }
   }
 
@@ -130,7 +137,7 @@ export default function NewBlogForm({ URL }: { URL: string }) {
 
       <span className="[align-self:flex-end] flex gap-4 align-self">
         <Button onPress={onOpen}>Preview Blog</Button>
-        <Button onPress={createBlog}>Create Blog</Button>
+        <Button onPress={createBlog}>{createButtonLoading ? <AiOutlineLoading3Quarters className='animate-spin' /> : 'Create Blog'}</Button>
       </span>
 
       <Modal scrollBehavior="inside" isOpen={isOpen} onOpenChange={onOpenChange} className="p-5">

@@ -6,9 +6,11 @@ import { Chip } from "@nextui-org/chip";
 import SubTitle from "../elements/subTitle";
 
 import { BsBoxArrowUpRight, BsPencilSquare, BsTrash } from "react-icons/bs";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function AdminBlogCard({
   title,
@@ -63,14 +65,19 @@ export default function AdminBlogCard({
       .then((data) => {
         if (data.success) {
           toast.success("Blog deleted successfully");
+          setDeleteLoading(false);
           router.refresh();
         } else {
           toast.error("Error deleting blog. Error code: " + data.errorCode);
+          setDeleteLoading(false);
         }
       });
   }
 
   const maxLength = 9;
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
+  const [redirectLoading, setRedirectLoading] = useState(false);
 
   return (
     <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] h-[30rem] blogcard">
@@ -80,19 +87,26 @@ export default function AdminBlogCard({
             {title.length > maxLength
               ? `${title.substring(0, maxLength)}...`
               : title}
-            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}>
-              <BsBoxArrowUpRight className="!text-lg" />
+            <Link href={`/blogs/${title.replaceAll(" ", "-")}`} onClick={() => setRedirectLoading(true)}>
+              {redirectLoading ? <AiOutlineLoading3Quarters className="animate-spin text-base" /> : <BsBoxArrowUpRight className="!text-lg" />}
             </Link>
           </SubTitle>
           <span className="my-2 text-xl flex items-center justify-start gap-2">
-            <Link href={`/dashboard/edit/${blogId}`}>
-              <BsPencilSquare />
+            <Link href={`/dashboard/edit/${blogId}`} onClick={() => setEditLoading(true)}>
+              {editLoading ? <AiOutlineLoading3Quarters className="animate-spin" /> : <BsPencilSquare />}
             </Link>
             <button
               className="!p-0 bg-transparent"
-              onClick={() => deleteBlog(blogId)}
+              onClick={() => {
+                deleteBlog(blogId);
+                setDeleteLoading(true)
+              }}
             >
-              <BsTrash className="text-red-500" />
+              {deleteLoading ? (
+                <AiOutlineLoading3Quarters className="animate-spin" />
+              ) : (
+                <BsTrash className="text-red-500" />
+              )}
             </button>
           </span>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">

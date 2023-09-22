@@ -6,7 +6,9 @@ import { Chip } from "@nextui-org/chip";
 import SubTitle from "../elements/subTitle";
 
 import { BsBoxArrowUpRight } from "react-icons/bs";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Link from "next/link";
+import { useState } from "react";
 
 export default function BlogCard({
   title,
@@ -48,6 +50,8 @@ export default function BlogCard({
 
   const maxLength = 9;
 
+  const [redirectLoading, setRedirectLoading] = useState(false);
+
   return (
     <Card className="max-w-[90vw] w-[25rem] !border-[1.5px] h-[30rem] blogcard">
       <CardHeader className="flex gap-3">
@@ -56,8 +60,8 @@ export default function BlogCard({
             {title.length > maxLength
               ? `${title.substring(0, maxLength)}...`
               : title}
-            <Link href={`/blogs/${title.replaceAll(" ", "-")}`}>
-              <BsBoxArrowUpRight className="!text-lg" />
+            <Link href={`/blogs/${title.replaceAll(" ", "-")}`} onClick={() => setRedirectLoading(true)}>
+              {redirectLoading ? <AiOutlineLoading3Quarters className='animate-spin text-base' /> : <BsBoxArrowUpRight className="!text-lg" />}
             </Link>
           </SubTitle>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">

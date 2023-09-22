@@ -25,6 +25,8 @@ import "@uploadthing/react/styles.css";
 import ReactMarkdown from "react-markdown";
 import toast from "react-hot-toast";
 
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+
 export default function EditBlogForm({
   URL,
   blogId,
@@ -63,6 +65,7 @@ export default function EditBlogForm({
   }, [URL, blogId]);
 
   async function editBlog() {
+    setEditButtonLoading(true);
     if (/^[a-zA-Z0-9\s]*$/.test(titleContent) === false) return toast.error("Title can only contain numbers, spaces and alphabets");
     const response = await fetch(URL + "/api/blogs/edit/", {
       method: "POST",
@@ -79,13 +82,17 @@ export default function EditBlogForm({
     const data = await response.json();
     if (response.ok) {
       toast.success("Blog edited successfully");
+      setEditButtonLoading(false);
       router.push("/");
     } else {
       toast.error(
         `Error editing blog. Try again later. Error: ${data.errorCode}`
       );
+      setEditButtonLoading(false);
     }
   }
+
+  const [editButtonLoading, setEditButtonLoading] = useState(false);
 
   return (
     <div className="flex flex-col items-start justify-start w-full px-5 max-w-[90vw] gap-16">
@@ -153,7 +160,7 @@ export default function EditBlogForm({
 
       <span className="[align-self:flex-end] flex gap-4 align-self">
         <Button onPress={onOpen}>Preview Blog</Button>
-        <Button onPress={editBlog}>Publish changes</Button>
+        <Button onPress={editBlog}>{editButtonLoading ? <AiOutlineLoading3Quarters className='animate-spin' /> : 'Publish changes'}</Button>
       </span>
 
       <Modal
