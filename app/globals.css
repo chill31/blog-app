@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+body {
+  overflow-x: hidden !important;
+}
+
 .dark .prose {
   @apply prose-invert;
 }

@@ -3,6 +3,7 @@ import Title from "@/components/elements/Title";
 import ReactMarkdown from "react-markdown";
 
 import { SignIn, currentUser } from "@clerk/nextjs";
+import { encode, decode } from "@/helpers/URI";
 import { Suspense } from "react";
 
 import Prose from "@/components/blog/Prose";
@@ -10,7 +11,7 @@ import Prose from "@/components/blog/Prose";
 export default async function Blog({ params }: { params: { title: string } }) {
   const user = await currentUser();
 
-  const formatedTitle = params.title.replaceAll("-", " ");
+  const formatedTitle = decode(params.title);
   const response = await fetch(process.env.URL + `/api/blogs/getBlogByTitle`, {
     method: "POST",
     body: JSON.stringify({ title: formatedTitle }),
@@ -24,15 +25,10 @@ export default async function Blog({ params }: { params: { title: string } }) {
           <Title> </Title>
           <Suspense fallback={<div>Loading...</div>}>
             <Prose>
-              <ReactMarkdown>
-                {`# ${data.title}
-
-**by ${data.email}**
-
----
-
-${data.content}`}
-              </ReactMarkdown>
+              <h1>{data.title}</h1>
+              <strong>{data.email}</strong>
+              <hr />
+              <ReactMarkdown>{data.content}</ReactMarkdown>
             </Prose>
           </Suspense>
         </Container>
@@ -42,9 +38,7 @@ ${data.content}`}
         return (
           <Container>
             <Title>Unauthorized</Title>
-            <SignIn
-              redirectUrl={`/blogs/${params.title.replaceAll(" ", "-")}`}
-            />
+            <SignIn redirectUrl={`/blogs/${encode(params.title)}`} />
           </Container>
         );
       } else {
@@ -52,15 +46,10 @@ ${data.content}`}
           <Container>
             <Title> </Title>
             <Prose>
-              <ReactMarkdown>
-                {`# ${data.title}
-
-**by ${data.email}**
-
----
-
-${data.content}`}
-              </ReactMarkdown>
+              <h1>{data.title}</h1>
+              <strong>{data.email}</strong>
+              <hr />
+              <ReactMarkdown>{data.content}</ReactMarkdown>
             </Prose>
           </Container>
         );

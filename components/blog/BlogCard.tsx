@@ -9,6 +9,7 @@ import { BsBoxArrowUpRight } from "react-icons/bs";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import Link from "next/link";
 import { useState } from "react";
+import { encode } from "@/helpers/URI";
 
 export default function BlogCard({
   title,
@@ -60,14 +61,14 @@ export default function BlogCard({
             {title.length > maxLength
               ? `${title.substring(0, maxLength)}...`
               : title}
-            <Link href={`/blogs/${title.replaceAll(" ", "-")}`} onClick={() => setRedirectLoading(true)}>
+            <Link href={`/blogs/${encode(title)}`} onClick={() => setRedirectLoading(true)}>
               {redirectLoading ? <AiOutlineLoading3Quarters className='animate-spin text-base' /> : <BsBoxArrowUpRight className="!text-lg" />}
             </Link>
           </SubTitle>
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">
             {author}
             {isPublic ? (
-              <Chip color="secondary">Public</Chip>
+              <Chip color="default">Public</Chip>
             ) : (
               <Chip color="danger" className="bg-accent">
                 Private

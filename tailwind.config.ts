@@ -11,9 +11,6 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        "background": "#fff",
-        "secondary": "#38464C",
-        "primary": "#000",
         "accent": "#3F51B5",
       },
       fontSize: {

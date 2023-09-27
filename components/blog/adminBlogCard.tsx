@@ -11,6 +11,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { encode } from "@/helpers/URI";
 
 export default function AdminBlogCard({
   title,
@@ -87,7 +88,7 @@ export default function AdminBlogCard({
             {title.length > maxLength
               ? `${title.substring(0, maxLength)}...`
               : title}
-            <Link href={`/blogs/${title.replaceAll(" ", "-")}`} onClick={() => setRedirectLoading(true)}>
+            <Link href={`/blogs/${encode(title)}`} onClick={() => setRedirectLoading(true)}>
               {redirectLoading ? <AiOutlineLoading3Quarters className="animate-spin text-base" /> : <BsBoxArrowUpRight className="!text-lg" />}
             </Link>
           </SubTitle>
@@ -112,7 +113,7 @@ export default function AdminBlogCard({
           <span className="text-small text-default-500 flex items-center justify-start6 gap-4">
             {author}
             {isPublic ? (
-              <Chip color="secondary">Public</Chip>
+              <Chip color="default">Public</Chip>
             ) : (
               <Chip color="danger" className="bg-accent">
                 Private

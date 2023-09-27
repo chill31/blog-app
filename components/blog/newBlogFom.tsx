@@ -46,7 +46,8 @@ export default function NewBlogForm({ URL }: { URL: string }) {
 
   async function createBlog() {
     setCreateButtonLoading(true);
-    if (/^[a-zA-Z0-9\s]*$/.test(titleContent) === false) return toast.error("Title can only contain numbers, spaces and alphabets");
+    // if (/^[a-zA-Z0-9\s]*$/.test(titleContent) === false) return toast.error("Title can only contain numbers, spaces and alphabets");
+    // const urlTitle = encodeURIComponent(titleContent);
     const response = await fetch(URL + "/api/blogs/create", {
       method: "POST",
       body: JSON.stringify({
