@@ -14,7 +14,7 @@ FOUND IN:
 */
 
 .light pre {
-  @apply !bg-[rgba(0,0,0,.07)];
+  @apply !bg-[rgba(0,0,0,.03)];
 }
 
 pre code[class*="hljs"] {
